@@ -138,9 +138,5 @@ if __name__ == '__main__':
     start_time = time.time()
     # ans = SolveSudoku(Sudoku1)
     Num_Possible(Sudoku1)
-    # print(Sudoku1)
-    # aa = CheckSudokuCase(Sudoku1)
-    # print(aa)
     print("[TIME]", time.time() - start_time)
-    # print(ans)
-    # print(Sudoku1)
+
