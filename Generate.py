@@ -1,22 +1,14 @@
 #!/usr/bin/python3
 
 from CheckSudoku import CheckSudokuCase
+from Sudoku_Seed import Seed_Sudoku
 import numpy as np
 import random
-
-testshudu = np.array([[1, 2, 3, 4, 5, 6, 7, 8, 9],
-                      [4, 5, 6, 7, 8, 9, 1, 2, 3],
-                      [7, 8, 9, 1, 2, 3, 4, 5, 6],
-                      [2, 1, 4, 3, 6, 5, 8, 9, 7],
-                      [3, 6, 5, 8, 9, 7, 2, 1, 4],
-                      [8, 9, 7, 2, 1, 4, 3, 6, 5],
-                      [5, 3, 1, 6, 4, 2, 9, 7, 8],
-                      [6, 4, 2, 9, 7, 8, 5, 3, 1],
-                      [9, 7, 8, 5, 3, 1, 6, 4, 2]])
+import time
 
 def Data_Exchange(Shudu):
     NumOfExchange = 1
-    while(NumOfExchange<20):
+    while(NumOfExchange<10):
         a = random.randint(2,9)
         if a == 9:
             for i in range(9):
@@ -38,7 +30,7 @@ def Data_Exchange(Shudu):
 
 def RowColumn_Exchange(Shudu):
     NumOfExchange = 1
-    while(NumOfExchange<20):
+    while(NumOfExchange<10):
         Row_a = random.randint(1,8)
         if (Row_a%3) == 2:
             Shudu[[Row_a,Row_a-1], :] = Shudu[[Row_a-1,Row_a], :]
@@ -50,23 +42,50 @@ def RowColumn_Exchange(Shudu):
     return Shudu
 
 
-testshudu = Data_Exchange(testshudu)
-# print(testshudu)
-testshudu = RowColumn_Exchange(testshudu)
-print(testshudu)
-# print(testshudu.T)
 
-hh = CheckSudokuCase(testshudu)
-print(hh)
+if __name__ == '__main__':
 
-# print(testshudu[0])
+    num = input('-c ')
+    num = int(num)
+    start_time = time.time()
+    f = open('sudoku.txt', "r+")
+    f.truncate()
+    f.close
+    a = random.randint(0,9)
+    testshudu = Seed_Sudoku(a)
 
-np.savetxt('shudu.txt',testshudu, fmt="%d")
+    with open('sudoku.txt', 'a+') as sudoku_file:
+        while(num > 0):
+            # start_time0 = time.time()
+            testshudu = Data_Exchange(testshudu)
+            testshudu = RowColumn_Exchange(testshudu)
+            # print("[TIME]00 ", time.time() - start_time0)
+            # print(testshudu)
 
-fp = open('shudu.txt','r')
-for line in fp:
-    fq = open('sudoku.txt','a')#这里用追加模式
-    fq.write(line)
-fq.write('\n')
-fp.close()
-fq.close()
+            # start_time1 = time.time()
+            np.savetxt('shudu.txt',testshudu, fmt="%d")
+            sudoku_file.write('\n')
+            num -= 1
+            # print("[TIME]11 ", time.time() - start_time1)
+    
+
+    # while(num>0):
+    #     start_time0 = time.time()
+    #     testshudu = Data_Exchange(testshudu)
+    #     testshudu = RowColumn_Exchange(testshudu)
+    #     print("[TIME]00 ", time.time() - start_time0)
+    #     # print(testshudu)
+
+    #     start_time1 = time.time()
+    #     np.savetxt('shudu.txt',testshudu, fmt="%d")
+    #     fp = open('shudu.txt','r')
+    #     for line in fp:
+    #         fq = open('sudoku.txt','a')#这里用追加模式
+    #         fq.write(line)
+    #     num -= 1
+    #     fq.write('\n')
+    #     fp.close()
+    #     fq.close()
+    #     print("[TIME]11 ", time.time() - start_time1)
+
+    print("[TIME]", time.time() - start_time)
