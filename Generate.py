@@ -60,32 +60,11 @@ if __name__ == '__main__':
             testshudu = Data_Exchange(testshudu)
             testshudu = RowColumn_Exchange(testshudu)
             # print("[TIME]00 ", time.time() - start_time0)
-            # print(testshudu)
 
             # start_time1 = time.time()
             np.savetxt('shudu.txt',testshudu, fmt="%d")
             sudoku_file.write('\n')
             num -= 1
             # print("[TIME]11 ", time.time() - start_time1)
-    
-
-    # while(num>0):
-    #     start_time0 = time.time()
-    #     testshudu = Data_Exchange(testshudu)
-    #     testshudu = RowColumn_Exchange(testshudu)
-    #     print("[TIME]00 ", time.time() - start_time0)
-    #     # print(testshudu)
-
-    #     start_time1 = time.time()
-    #     np.savetxt('shudu.txt',testshudu, fmt="%d")
-    #     fp = open('shudu.txt','r')
-    #     for line in fp:
-    #         fq = open('sudoku.txt','a')#这里用追加模式
-    #         fq.write(line)
-    #     num -= 1
-    #     fq.write('\n')
-    #     fp.close()
-    #     fq.close()
-    #     print("[TIME]11 ", time.time() - start_time1)
 
     print("[TIME]", time.time() - start_time)
