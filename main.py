@@ -1,24 +1,24 @@
-import Solve_Sudoku
-import Create_Sudoku
-import numpy as np
+#!/usr/bin/python3
+""" This is function main"""
 import time
 import sys
+import solve_sudoku
+import create_sudoku
 
 def main():
-
-    # MySudoku = np.loadtxt('shudu.txt', dtype=int)
+    """ This is function main"""
     time_start = time.time()
     para = sys.argv[1]
     if para == '-c':
-        Sudoku_Count = int(sys.argv[2])
-        Create_Sudoku.CreateMySudoku(Sudoku_Count)
+        sudoku_count = int(sys.argv[2])
+        create_sudoku.CreateMySudoku(sudoku_count)
     elif para == '-s':
-        Sodoku_Path = sys.argv[2]
-        Solve_Sudoku.SolveMySudoku(Sodoku_Path)
+        sodoku_path = sys.argv[2]
+        solve_sudoku.SolveMySudoku(sodoku_path)
     else:
         print("Error Input")
-    
-    print("Using time: " , time.time()-time_start)
+
+    print("Using time: ", time.time()-time_start)
 
 
 
