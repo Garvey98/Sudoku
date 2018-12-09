@@ -31,7 +31,7 @@ class CreateMySudoku():
         """ Data transformation"""
         numofexchange = 1
         while numofexchange < 20:
-            random_num = random.randint(2, 9)
+            random_num = int(random.choice([2, 3, 4, 5, 6, 7, 8, 9]))
             if random_num == 9:
                 for i in range(9):
                     for j in range(9):
@@ -53,7 +53,7 @@ class CreateMySudoku():
         """ Row and column transformation"""
         numofexchange = 1
         while numofexchange < 20:
-            rownum = random.randint(1, 8)
+            rownum = int(random.choice([1, 2, 3, 4, 5, 6, 7, 8]))
             if (rownum % 3) == 2:
                 self.root_shudu[[rownum, rownum-1], :] = self.root_shudu[[rownum-1, rownum], :]
             else:
