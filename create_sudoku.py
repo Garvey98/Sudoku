@@ -1,68 +1,60 @@
-#!/usr/bin/python3
-""" This is the module that generates the sudoku endings"""
-import random
+from Sudoku_Seed import Seed_Sudoku
 import numpy as np
+import random
+import time
 
 
 class CreateMySudoku():
-    """ This is the class that generates the sudoku endings"""
-    root_shudu = np.array([[1, 9, 6, 4, 3, 8, 7, 5, 2],
-                           [3, 8, 4, 5, 7, 2, 1, 6, 9],
-                           [7, 2, 5, 6, 1, 9, 3, 4, 8],
-                           [5, 7, 2, 1, 6, 3, 9, 8, 4],
-                           [6, 3, 1, 8, 9, 4, 5, 2, 7],
-                           [9, 4, 8, 2, 5, 7, 6, 1, 3],
-                           [2, 5, 7, 9, 4, 1, 8, 3, 6],
-                           [4, 1, 9, 3, 8, 6, 2, 7, 5],
-                           [8, 6, 3, 7, 2, 5, 4, 9, 1]])
-
     def __init__(self, count):
-        """ Initializes the generated file and calls the generation function """
+        a = random.randint(0,9)
         with open('sudoku.txt', 'a+') as sudoku_file:
             sudoku_file.truncate(0)
-            for _ in range(count):
-                # random_num = random.randint(0, 9)
-                # root_shudu = Seed_Sudoku(random_num)
-                self.generate_sudoku()
-                np.savetxt(sudoku_file, self.root_shudu, fmt="%d")
+            for i in range(count):
+                Root_shudu = Seed_Sudoku(a)
+                self.Generate_Sudoku(Root_shudu)
+                np.savetxt(sudoku_file, Root_shudu, fmt="%d")
                 sudoku_file.write('\n')
+                
 
-    def data_exchange(self):
-        """ Data transformation"""
-        numofexchange = 1
-        while numofexchange < 20:
-            random_num = random.randint(2, 9)
-            if random_num == 9:
+
+    def Data_Exchange(self, Shudu):
+        NumOfExchange = 1
+        while(NumOfExchange<20):
+            a = random.randint(2,9)
+            if a == 9:
                 for i in range(9):
                     for j in range(9):
-                        if self.root_shudu[i][j] == random_num:
-                            self.root_shudu[i][j] = 2
-                        elif self.root_shudu[i][j] == 2:
-                            self.root_shudu[i][j] = 9
-            else:
+                        if Shudu[i][j] == a:
+                            Shudu[i][j] = 2
+                        elif Shudu[i][j] == 2:
+                            Shudu[i][j] = 9
+            else :
                 for i in range(9):
                     for j in range(9):
-                        if self.root_shudu[i][j] == random_num:
-                            self.root_shudu[i][j] = random_num+1
-                        elif self.root_shudu[i][j] == random_num+1:
-                            self.root_shudu[i][j] = random_num
-            numofexchange += 1
-        return self.root_shudu
+                        if Shudu[i][j] == a:
+                            Shudu[i][j] = a+1
+                        elif Shudu[i][j] == a+1:
+                            Shudu[i][j] = a
+            NumOfExchange += 1
+        return Shudu
+                
 
-    def rowcolumn_exchange(self):
-        """ Row and column transformation"""
-        numofexchange = 1
-        while numofexchange < 20:
-            rownum = random.randint(1, 8)
-            if (rownum % 3) == 2:
-                self.root_shudu[[rownum, rownum-1], :] = self.root_shudu[[rownum-1, rownum], :]
+    def RowColumn_Exchange(self, Shudu):
+        NumOfExchange = 1
+        while(NumOfExchange<20):
+            Row_a = random.randint(1,8)
+            if (Row_a%3) == 2:
+                Shudu[[Row_a,Row_a-1], :] = Shudu[[Row_a-1,Row_a], :]
             else:
-                self.root_shudu[[rownum, rownum+1], :] = self.root_shudu[[rownum+1, rownum], :]
-            self.root_shudu = self.root_shudu.T
-            numofexchange += 1
-        return self.root_shudu
+                Shudu[[Row_a,Row_a+1], :] = Shudu[[Row_a+1,Row_a], :]
+            
+            Shudu = Shudu.T
+            NumOfExchange += 1
+        return Shudu
 
-    def generate_sudoku(self):
-        """ Generate a certain number of sudoku endings"""
-        self.data_exchange()
-        self.rowcolumn_exchange()
+
+
+    def Generate_Sudoku(self, Root_shudu):
+        self.Data_Exchange(Root_shudu)
+        self.RowColumn_Exchange(Root_shudu)
+        
