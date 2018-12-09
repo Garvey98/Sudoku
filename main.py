@@ -13,7 +13,7 @@ def main():
         para = sys.argv[1]
         if para == '-c':
             sudoku_count = int(sys.argv[2])
-            if not sudoku_count > 0:
+            if sudoku_count <= 0:
                 raise ValueError
             create_sudoku.CreateMySudoku(sudoku_count)
 
@@ -31,7 +31,8 @@ def main():
     except IndexError:
         print("Need two parameters, here is how to use it:")
         print("[Type the command]`python main.py -c 100`: Generate 100 sudoku endings.")
-        print("[Type the command]`python main.py -s \"Sudoku_Problem.txt\"`: Solve the sudoku in \"Sudoku_Problem.txt\".")
+        print("[Type the command]`python main.py -s \"Sudoku_Problem.txt\"`: \
+            Solve the sudoku in \"Sudoku_Problem.txt\".")
 
     finally:
         print("Using time: ", time.time()-time_start)
