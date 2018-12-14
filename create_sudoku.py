@@ -30,8 +30,10 @@ class CreateMySudoku():
     def data_exchange(self):
         """ Data transformation"""
         numofexchange = 1
-        while numofexchange < 20:
-            random_num = int(random.choice([2, 3, 4, 5, 6, 7, 8, 9]))
+        temp_list = [2, 3, 4, 5, 6, 7, 8, 9]
+        while numofexchange < 5:
+            random.shuffle(temp_list)
+            random_num = temp_list[1]
             if random_num == 9:
                 for i in range(9):
                     for j in range(9):
@@ -52,8 +54,10 @@ class CreateMySudoku():
     def rowcolumn_exchange(self):
         """ Row and column transformation"""
         numofexchange = 1
-        while numofexchange < 20:
-            rownum = int(random.choice([1, 2, 3, 4, 5, 6, 7, 8]))
+        temp_list = [1, 2, 3, 4, 5, 6, 7, 8]
+        while numofexchange < 5:
+            random.shuffle(temp_list)
+            rownum = temp_list[1]
             if (rownum % 3) == 2:
                 self.root_shudu[[rownum, rownum-1], :] = self.root_shudu[[rownum-1, rownum], :]
             else:
