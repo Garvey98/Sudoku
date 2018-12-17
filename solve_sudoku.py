@@ -5,7 +5,7 @@ import numpy as np
 class SolveMySudoku():
     """ This is the class that solves the sudoku"""
     mysudoku = np.zeros((9, 9), dtype=int)
-    print(mysudoku)
+
     def __init__(self, Soduku_Path):
         """ Load the sudoku from the file and call the solution function to output the result"""
         allmysudoku = np.loadtxt(Soduku_Path, dtype=int)
@@ -23,15 +23,14 @@ class SolveMySudoku():
         """ Select the location with the fewest possible values for depth-first search"""
         blank_length = len(blank)
         if blank_length == 0:
-            print(self.mysudoku)
             return True
 
         all_num = set(range(1, 10))
         smallest_possible_case = 9
+
         for (row, col) in blank:
             possibility = all_num - \
                 (row_num[row] | col_num[col] | block_num[row//3][col//3])
-            # print(possibility, row, col)
             if len(possibility) <= smallest_possible_case:
                 smallest_possible_case = len(possibility)
                 i = row
@@ -40,7 +39,6 @@ class SolveMySudoku():
         if smallest_possible_case == 0:
             return False
 
-        # print("smallest: ", possibility, row, col)
         blank.remove((i, j))
         possibility = all_num - \
             (row_num[i] | col_num[j] | block_num[i//3][j//3])
