@@ -20,14 +20,15 @@ class CreateMySudoku():
         """ Initializes the generated file and calls the generation function """
         with open('sudoku.txt', 'a+') as sudoku_file:
             sudoku_file.truncate(0)
-            for _ in range(count):
+            # for _ in range(count):
                 # random_num = random.randint(0, 9)
                 # root_shudu = Seed_Sudoku(random_num)
-                self.generate_sudoku()
-                np.savetxt(sudoku_file, self.root_shudu, fmt="%d")
-                sudoku_file.write('\n')
+        self.generate_sudoku(count)
+                # np.savetxt(sudoku_file, self.root_shudu, fmt="%d")
+                # sudoku_file.write('\n')
 
-    def data_exchange(self):
+
+    def change_root(self):
         """ Data transformation"""
         numofexchange = 1
         temp_list = [2, 3, 4, 5, 6, 7, 8, 9]
@@ -51,11 +52,37 @@ class CreateMySudoku():
             numofexchange += 1
         return self.root_shudu
 
-    def rowcolumn_exchange(self):
+
+    def data_exchange(self, count):
+        """ Data transformation"""
+        numofexchange = 1
+        with open('sudoku.txt', 'a+') as sudoku_file:
+            while count > 0:
+                for num_a in range(2, 9):
+                    for num_b in range(num_a+1, 10):
+                        for i in range(9):
+                            for j in range(9):
+                                if self.root_shudu[i][j] == num_a:
+                                    self.root_shudu[i][j] = num_b
+                                elif self.root_shudu[i][j] == num_b:
+                                    self.root_shudu[i][j] = num_a
+                        np.savetxt(sudoku_file, self.root_shudu, fmt="%d")
+                        sudoku_file.write('\n')
+                        numofexchange += 1
+                        count -= 1
+                        if count == 0:
+                            return count
+                if numofexchange == 110:
+                    break
+                self.rowcolumn_exchange(2)
+            return count
+    
+
+    def rowcolumn_exchange(self, change_num):
         """ Row and column transformation"""
         numofexchange = 1
         temp_list = [1, 2, 3, 4, 5, 6, 7, 8]
-        while numofexchange < 5:
+        while numofexchange < change_num:
             random.shuffle(temp_list)
             rownum = temp_list[1]
             if (rownum % 3) == 2:
@@ -66,7 +93,10 @@ class CreateMySudoku():
             numofexchange += 1
         return self.root_shudu
 
-    def generate_sudoku(self):
+    def generate_sudoku(self, count):
         """ Generate a certain number of sudoku endings"""
-        self.data_exchange()
-        self.rowcolumn_exchange()
+        while count > 0:
+            self.change_root()
+            self.rowcolumn_exchange(4)
+            count = self.data_exchange(count)
+            
