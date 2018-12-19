@@ -20,17 +20,12 @@ class CreateMySudoku():
         """ Initializes the generated file and calls the generation function """
         with open('sudoku.txt', 'a+') as sudoku_file:
             sudoku_file.truncate(0)
-            # for _ in range(count):
-                # random_num = random.randint(0, 9)
-                # root_shudu = Seed_Sudoku(random_num)
         self.count_need = count
         self.generate_sudoku()
-                # np.savetxt(sudoku_file, self.root_shudu, fmt="%d")
-                # sudoku_file.write('\n')
 
 
     def change_root(self):
-        """ Data transformation"""
+        """ Change sudoku map"""
         numofexchange = 1
         temp_list = [2, 3, 4, 5, 6, 7, 8, 9]
         while numofexchange < 5:
@@ -55,74 +50,73 @@ class CreateMySudoku():
 
 
     def num_pos(self):
+        """ Find the same number position"""
         num_position = []
         for i in range(8):
             num_position.append(set())
         for i in range(9):
             for j in range(9):
                 if self.root_shudu[i][j] != 1:
-                    num_position[self.root_shudu[i][j]-2].add((i,j))
-        # for i in range(8):
-        #     print(num_position[i])
+                    num_position[self.root_shudu[i][j]-2].add((i, j))
         return num_position
 
 
-    def data_exchange(self, num_position, n):
-        tempshudu = self.root_shudu.copy()
+    def data_exchange(self, shudu, num_position, n_num):
+        """ Data transformation"""
         for i in range(8):
             for (row, col) in num_position[i]:
-                tempshudu[row][col] = n[i]
-        return tempshudu
+                if shudu[row][col] == n_num[i]:
+                    break
+                shudu[row][col] = n_num[i]
+        return shudu
 
-    
+
     def perm(self, num_position):
-        """ Data transformation"""
-        # numofexchange = 1
-        n =[2, 3, 4, 5, 6, 7, 8, 9]
+        """ Full Permutation"""
+        n_num = [2, 3, 4, 5, 6, 7, 8, 9]
         tempcount = 40320
         tempshudu = self.root_shudu.copy()
         with open('sudoku.txt', 'a+') as sudoku_file:
             while tempcount > 0 and self.count_need > 0:
                 tail = 7
-                j = 7  
-                tempshudu = self.data_exchange(num_position, n)
+                j = 7
+                tempshudu = self.data_exchange(tempshudu, num_position, n_num)
                 np.savetxt(sudoku_file, tempshudu, fmt="%d")
                 sudoku_file.write('\n')
                 tempcount -= 1
                 self.count_need -= 1
                 if tempcount == 0 or self.count_need == 0:
-                            break
+                    break
                 while j >= 1:
                     i = j - 1
-                    if n[i] < n [j] :
-                        jj = tail
+                    if n_num[i] < n_num[j]:
+                        temp_j = tail
                         k = i + 1
-                        while jj > i:
-                            if n[jj] > n[i] and n[jj] < n[k]:
-                                k = jj
-                            jj -= 1
-                        n[i],n[k] = n[k],n[i]
-                        if len(n) > j:
+                        while temp_j > i:
+                            if n_num[temp_j] > n_num[i] and n_num[temp_j] < n_num[k]:
+                                k = temp_j
+                            temp_j -= 1
+                        n_num[i], n_num[k] = n_num[k], n_num[i]
+                        if len(n_num) > j:
                             i = j
-                            jj = tail
-                            while i < jj:
-                                n[i],n[jj] = n[jj],n[i]
+                            temp_j = tail
+                            while i < temp_j:
+                                n_num[i], n_num[temp_j] = n_num[temp_j], n_num[i]
                                 i += 1
-                                jj -= 1
+                                temp_j -= 1
                         j = tail
-                        
-                        tempshudu = self.data_exchange(num_position, n)
+                        tempshudu = self.data_exchange(tempshudu, num_position, n_num)
                         np.savetxt(sudoku_file, tempshudu, fmt="%d")
                         sudoku_file.write('\n')
                         tempcount -= 1
                         self.count_need -= 1
                         if tempcount == 0 or self.count_need == 0:
                             break
-                    else :
+                    else:
                         j -= 1
             return self.count_need
-            
-    
+
+
 
     def rowcolumn_exchange(self, change_num):
         """ Row and column transformation"""
