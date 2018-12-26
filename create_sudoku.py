@@ -4,6 +4,16 @@ import random
 import numpy as np
 
 
+def data_exchange(shudu, num_position, n_num):
+    """ Data transformation"""
+    for i in range(8):
+        for (row, col) in num_position[i]:
+            if shudu[row][col] == n_num[i]:
+                break
+            shudu[row][col] = n_num[i]
+    return shudu
+
+
 class CreateMySudoku():
     """ This is the class that generates the sudoku endings"""
     root_shudu = np.array([[1, 9, 6, 4, 3, 8, 7, 5, 2],
@@ -61,16 +71,6 @@ class CreateMySudoku():
         return num_position
 
 
-    def data_exchange(self, shudu, num_position, n_num):
-        """ Data transformation"""
-        for i in range(8):
-            for (row, col) in num_position[i]:
-                if shudu[row][col] == n_num[i]:
-                    break
-                shudu[row][col] = n_num[i]
-        return shudu
-
-
     def perm(self, num_position):
         """ Full Permutation"""
         n_num = [2, 3, 4, 5, 6, 7, 8, 9]
@@ -80,7 +80,7 @@ class CreateMySudoku():
             while tempcount > 0 and self.count_need > 0:
                 tail = 7
                 j = 7
-                tempshudu = self.data_exchange(tempshudu, num_position, n_num)
+                tempshudu = data_exchange(tempshudu, num_position, n_num)
                 np.savetxt(sudoku_file, tempshudu, fmt="%d")
                 sudoku_file.write('\n')
                 tempcount -= 1
@@ -105,7 +105,7 @@ class CreateMySudoku():
                                 i += 1
                                 temp_j -= 1
                         j = tail
-                        tempshudu = self.data_exchange(tempshudu, num_position, n_num)
+                        tempshudu = data_exchange(tempshudu, num_position, n_num)
                         np.savetxt(sudoku_file, tempshudu, fmt="%d")
                         sudoku_file.write('\n')
                         tempcount -= 1
@@ -135,7 +135,6 @@ class CreateMySudoku():
 
     def generate_sudoku(self):
         """ Generate a certain number of sudoku endings"""
-        num_position = self.num_pos()
         while self.count_need > 0:
             self.change_root()
             self.rowcolumn_exchange(4)
