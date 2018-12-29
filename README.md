@@ -1,6 +1,10 @@
 # Sudoku
 About Sudoku
 
+**环境配置**
+
+安装依赖 `pip install -r requirements.txt`
+
 **项目简介**
 
 实现一个命令行程序，程序能实现两个要求：
